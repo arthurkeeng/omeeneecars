@@ -1,22 +1,13 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import {auth} from "@clerk/nextjs/server"
+import { NextResponse } from 'next/server'
+const isProtectedRoute = createRouteMatcher(
+  ['/admins(.*)', '/saved-cars(.*)',"/reservations(.*)"])
 
+export default clerkMiddleware(async (auth , req) => {
+  
+})
 
-// const isProtected = createRouteMatcher([
-//     "/admin(.*)" , 
-//     "/saved-cars(.*)" , 
-//     "/reservations(.*)"
-// ])
-
-export default clerkMiddleware(
-//   async (auth , req) => {
-//     const {userId} = await auth();
-
-//     if(!userId && isProtected(req)){
-//         const {redirectToSignIn} = await auth();
-//         return redirectToSignIn();
-//     }
-// }
-)
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
@@ -24,4 +15,4 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-};
+}

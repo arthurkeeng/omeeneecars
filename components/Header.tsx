@@ -1,13 +1,38 @@
 'use client'
 
+import {checkUser} from "@/lib/checkUser"
+import {useUser} from '@clerk/clerk-react'
 import { SignedIn, SignedOut, SignInButton, UserButton} from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { ArrowLeft, CarFront } from 'lucide-react'
-const Header = () => {
-  const isAdmin = false 
- 
+import { useEffect, useState } from 'react'
+const Header = ({isAdminPage = false}) => {
+
+  const {user} = useUser()
+  const [person , setPerson] = useState("")
+  const isAdmin = person?.role === "ADMIN" ? true : false
+
+  
+  
+  useEffect(()=>{
+      let person;
+          if(user){
+            person = checkUser(true , 
+              user.id,
+              user.firstName! + user.lastName,
+              user.imageUrl,
+              user.emailAddresses?.[0]?.emailAddress,
+            
+          );
+
+          }
+
+          person?.then(p => setPerson(p)).catch(error => console.log('something happened'))
+
+  },[user])
+
 
   return (
     <header
@@ -16,7 +41,7 @@ const Header = () => {
       <nav className='mx-auto px-4 py-4 flex items-center justify-between'>
         <Link 
         className='flex items-center'
-        href={isAdmin ?"/admin" : "/"}>
+        href={isAdminPage ?"/admin" : "/"}>
         <Image src={"/car.png"} alt = "car store"
         width={500}
         height={100}
@@ -31,7 +56,7 @@ const Header = () => {
           items-center space-x-4'
          >
           {
-            isAdmin ?<>
+            isAdminPage ?<>
             <Link href="/">
             <Button variant='outline' className='flex items-center gap-1' >
               <ArrowLeft  size={18}/>

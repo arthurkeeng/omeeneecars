@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental : {
+    serverComponentsHmrCache : false
+  },
+  images :{
+  remotePatterns : [{
+    protocol : "https",
+    hostname :"jimiwhwevswprehymuqb.supabase.co"
+  }]
+  },
   /* config options here */
   async headers(){
     return [{

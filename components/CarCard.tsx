@@ -49,16 +49,19 @@ const CarCard = ({car} : {
                     />
                 </div>
             )}
-            {/* <Button variant='ghost' size='icon'
+            <Button variant='ghost' size='icon'
             className={`absoulte bg-white/90 rounded-full ${
                 saved ? "text-red-500 hover:text-gray-500"
                 : "text-gray-600 hover:to-gray-900"
             }`}
             onClick={handleToggle}
             >
-                <Heart className={saved ? "fill-current" : ""} size={30}/>
+                <Heart 
+                
+                
+                className={saved ? "fill-current" : ""} size={70}/>
 
-            </Button> */}
+            </Button>
         </div>
         <CardContent className='p-4'>
                 <div >
