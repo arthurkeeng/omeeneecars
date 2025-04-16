@@ -46,7 +46,10 @@ const HomeSearch = () => {
 
         const reader = new FileReader()
         reader.onloadend = () =>{
-          setImagePreview(reader.result!)
+          if (reader?.result === "string"){
+
+            setImagePreview(reader.result!)
+          }
           setIsUploading(false)
           toast.success("Image uploaded successfully")
         }
