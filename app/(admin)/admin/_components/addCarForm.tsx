@@ -70,8 +70,15 @@ const AddCarForm = () => {
   async function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result?.split(",")[1]); // Strip the base64 prefix
-      reader.onerror = reject;
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result === "string") {
+          resolve(result.split(",")[1]); // ✅ Safe use of .split
+        } else {
+          reject(new Error("File could not be converted to base64."));
+        }
+      };
+       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
