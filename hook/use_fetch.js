@@ -17,9 +17,11 @@ const useFetch = (cb) =>{
     const fn = async(...args) => {
         setLoading(true)
         setError(null)
-        // let {carData , images} = args[0]
+
+   
         try {
-            const response = await cb({...args} , userId) 
+            const response = await cb({...args} , userId)
+    
             setData(response)
             setError(null)
         } catch (error) {

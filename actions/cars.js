@@ -8,16 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import {db} from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import {serializedCarData} from '@/lib/helper'
-// import fs from 'fs/promises';
 
-// async function fileToBase64(file) {
-//   console.log('the file is ' , file)
-//   const bytes = await file.arrayBuffer();
-//   const buffer = Buffer.from(bytes);
-//   return buffer.toString("base64");
-// }
 
-// export async function processCarImageWithAI(file , userId) {
 export async function processCarImageWithAI(data,userId) {
 
   let base64Image = data["0"].base64Image
@@ -210,11 +202,15 @@ export async function addCar(args, userId) {
   } catch (error) {}
 }
 
-export async function getCars(search = "", userId){
+export async function getCars(args, userId){
+  let {search} = args["0"]
+ 
+
   try {
     const isAdmin = await getAdmin(userId);
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
+    if (isAdmin.authorized) console.log("authorized")
     
     let where = {}
 
@@ -225,12 +221,14 @@ export async function getCars(search = "", userId){
         {color : {contains : search , mode : "insensitive"}},
       ]
     }
-
+    const car = await db.car.findMany()
+    
     const cars = await db.car.findMany({
       where , orderBy : {createdAt : "desc"}
     })
 
     const serializedCars = cars.map(serializedCarData)
+   
     return { success : true , data : serializedCars}
   } catch (error) {
     return {
@@ -240,10 +238,9 @@ export async function getCars(search = "", userId){
   } 
 }
 
-export async function deleteCar(id , userId) {
+export async function deleteCar(args , userId) {
   try {
-    
-  
+    let {id} = args[0]  
   const isAdmin = await getAdmin(userId);
 
   if (!isAdmin.authorized) throw new Error("Unauthorized");
@@ -299,11 +296,14 @@ try {
 }
 }
 
-export async function updateCarStatus( id , {status , featured} , userId){
+export async function updateCarStatus( args , userId){
+   let {id , status , featured} = args[0]
+
   try {
     const isAdmin = await getAdmin(userId);
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
+    
   
     const updateData = {}
     if( status !== undefined ){

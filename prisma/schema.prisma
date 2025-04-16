@@ -73,7 +73,7 @@ enum CarStatus {
 model DealershipInfo{
   id String  @id @default(uuid())
   name String  @default("Omeenee Cars")
-  address String 
+  address String  @default("69 Car Street, Autoville, CA 69420") 
   phone String  @default("08100944296")
   email String @default("omnidev.build@gmail.com")
   workingHours WorkingHour[]

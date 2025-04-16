@@ -211,9 +211,7 @@ const AddCarForm = () => {
       base64Image , mimeType
     }
     await processAi(data); // send base64 and mimeType
-    console.log('the base is ' , base64Image)
-    console.log('the mime is ' , mimeType)
-    // await processAi(uploadedAIImage)
+    
   }
   const {
     getRootProps: getAIImageRootProps,
@@ -347,7 +345,7 @@ const AddCarForm = () => {
                       type="number"
                       id="price"
                       {...register("price")}
-                      placeholder="eg. $ 2000"
+                      placeholder="eg. NGN 2000"
                       className={errors.price ? "border-red-500" : ""}
                     />
                     {errors.price && (
