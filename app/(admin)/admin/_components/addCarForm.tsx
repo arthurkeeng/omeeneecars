@@ -481,7 +481,7 @@ const AddCarForm = () => {
                   <div className="space-y-2">
                     <Label htmlFor="status">Status</Label>
                     <Select
-                      onValueChange={(value) => setValue("status", value)}
+                      onValueChange={(value) => setValue("status", value as "AVAILABLE" | "UNAVAILABLE" | "SOLD")}
                       defaultValue={getValues("status")}
                     >
                       <SelectTrigger>
@@ -522,7 +522,7 @@ const AddCarForm = () => {
                     id="featured"
                     checked={watch("featured")}
                     onCheckedChange={(checked) => {
-                      setValue("featured", checked);
+                      setValue("featured", checked as boolean);
                     }}
                   />
                   <div className="space-y-1 leading-none">
