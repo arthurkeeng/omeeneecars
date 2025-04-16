@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 const Header = ({isAdminPage = false}) => {
 
   const {user} = useUser()
-  const [person , setPerson] = useState("")
+  const [person , setPerson] = useState(null)
   const isAdmin = person?.role === "ADMIN" ? true : false
 
   
