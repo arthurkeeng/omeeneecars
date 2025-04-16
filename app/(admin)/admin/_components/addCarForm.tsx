@@ -70,7 +70,7 @@ const AddCarForm = () => {
   async function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(",")[1]); // Strip the base64 prefix
+      reader.onload = () => resolve(reader.result?.split(",")[1]); // Strip the base64 prefix
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
