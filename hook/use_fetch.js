@@ -7,7 +7,7 @@ const useFetch = (cb) =>{
     const [userId , setUserId] = useState("")
     const [data , setData] = useState(undefined)
     const [loading , setLoading] = useState(false)
-    const [error , setError] = useState("")
+    const [error , setError] = useState(null)
     // const 
     useEffect(()=>{
         if(user) {
