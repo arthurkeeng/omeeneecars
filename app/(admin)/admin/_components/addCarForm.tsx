@@ -197,8 +197,10 @@ const AddCarForm = () => {
 
     const reader = new FileReader()
     reader.onload = (e) => {
-      console.log("the target is " , e.target.result)
-      setImagePreview(e.target.result)
+      if (e.target.result === "string"){
+
+        setImagePreview(e.target.result)
+      }
       toast.success("Image uploaded successfully");
     }
    reader.readAsDataURL(file);
@@ -255,7 +257,12 @@ const AddCarForm = () => {
       const reader = new FileReader()
 
       reader.onload = e => {
-        setUploadedImages(prev => [...prev , e.target?.result])
+        const result = e.target?.result
+
+        if (result === "string") {
+
+          setUploadedImages(prev => [...prev , result])
+        }
       }
       reader.readAsDataURL(uploadedAIImage!)
 
