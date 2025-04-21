@@ -57,12 +57,12 @@ const AddCarForm = () => {
     fn : processAi , error : aiError
   } = useFetch(processCarImageWithAI)
 
-  const [uploadedImages, setUploadedImages] = useState<(string | ArrayBuffer)[] >([]);
+  const [uploadedImages, setUploadedImages] = useState<(string | ArrayBuffer)[]>([]);
 
   const [imageError, setImageError] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [uploadedAIImage , setUploadedAIImage] = useState(null)
-  const [imagePreview, setImagePreview] = useState<string | ArrayBuffer>("");
+  const [imagePreview, setImagePreview] = useState<string |ArrayBuffer>("");
   const [searchImage, setSearchImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isImageSearchOpen, setIsImageSearchOpen] = useState(false);
