@@ -44,6 +44,15 @@ const getStatusBadge = (status) => {
   }
 };
 
+type TestDriveCardProps = {
+    booking: any;
+    onCancel?: (value) => Promise<void>; // 👈 optional async function
+    showActions?: boolean;
+    isPast?: boolean;
+    isAdmin?: boolean;
+    isCancelling?: boolean;
+    renderStatusSelector?: () => any;
+  };
 export function TestDriveCard({
   booking,
   onCancel,
@@ -52,7 +61,7 @@ export function TestDriveCard({
   isAdmin = false,
   isCancelling = false,
   renderStatusSelector = () => null,
-}) {
+}: TestDriveCardProps) {
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   // Handle cancel
@@ -63,7 +72,7 @@ export function TestDriveCard({
     setCancelDialogOpen(false);
   };
 
-  
+ 
   return (
     <>
       <Card
