@@ -10,6 +10,8 @@ export const metadata ={
     description : "Browse and search for your favorite car"
 }
 
+export const dynamic = "force-dynamic";
+
 const CarsPage = async () => {
 
     const filteredCar = await getCarFilters()
