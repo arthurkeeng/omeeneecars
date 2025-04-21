@@ -1,11 +1,12 @@
+
 "use client";
+
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { Filter, Sliders, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CarFilterControls from "./car_filter_controls";
 import {
   Select,
@@ -69,6 +70,7 @@ const CarFilters = ({ filters }) => {
     currentMaxPrice,
     currentSortBy,
   ]);
+  
   const activeFilterCount = [
     make,
     bodyType,

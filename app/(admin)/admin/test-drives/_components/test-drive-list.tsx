@@ -99,7 +99,7 @@ const TestDrivesList = () => {
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value="ALL">All Statuses</SelectItem>
               <SelectItem value="PENDING">Pending</SelectItem>
               <SelectItem value="CONFIRMED">Confirmed</SelectItem>
               <SelectItem value="COMPLETED">Completed</SelectItem>

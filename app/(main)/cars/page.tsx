@@ -1,6 +1,9 @@
+
+
 import {getCarFilters} from "@/actions/car-fetch"
 import CarFilters from "./_components/car-filters"
 import CarListing from "./_components/car-listing"
+import {Suspense} from 'react'
 
 export const metadata ={
     title : "Cars | OmeeneeCars" , 
@@ -16,7 +19,10 @@ const CarsPage = async () => {
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-80 flex-shrink-0">
             {/* {filters } */}
+            <Suspense fallback={<div>Loading filters...</div>}>
+            
             <CarFilters filters={filteredCar.data}/>
+            </Suspense>
             </div>
         <div className="flex-1 ">{/* {listing} */}
             <CarListing/>
