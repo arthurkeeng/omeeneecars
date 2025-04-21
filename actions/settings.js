@@ -7,7 +7,7 @@ export async function getDealershipInfo(args , userId) {
     
     
   try {
-    const isAdmin = await getAdmin(userId);
+    const isAdmin = await getAdmin();
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
 
@@ -103,7 +103,7 @@ export async function saveWorkingHours (args, userId) {
 
     try {
         let {workingHours} = args[0]
-        const isAdmin = await getAdmin(userId);
+        const isAdmin = await getAdmin();
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
     const user = await db.user.findUnique({
@@ -150,7 +150,7 @@ export async function saveWorkingHours (args, userId) {
 
 export async function getUsers(args , userId) {
     try {
-        const isAdmin = await getAdmin(userId);
+        const isAdmin = await getAdmin();
 
         if (!isAdmin.authorized) throw new Error("Unauthorized");
         const user = await db.user.findUnique({
@@ -182,7 +182,7 @@ export async function updateUserRole(args, userId){
     let {role , userToChangeId} = args[0]
     
     try {
-        const isAdmin = await getAdmin(userId);
+        const isAdmin = await getAdmin();
 
         if (!isAdmin.authorized) throw new Error("Unauthorized");
         const user = await db.user.findUnique({

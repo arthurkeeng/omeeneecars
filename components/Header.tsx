@@ -47,9 +47,9 @@ const Header = ({isAdminPage = false}) => {
         height={100}
         className='h-12 w-auto'
         />
-        {isAdmin && (
+        {/* {isAdmin && (
           <span className='text-xs font-extralight'> Admin</span>
-        )}
+        )} */}
           </Link>
          <div
          className='flex 

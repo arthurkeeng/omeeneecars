@@ -1,7 +1,7 @@
 import HomeSearch from "@/components/Home-search";
 import { Button } from "@/components/ui/button";
 import { Calendar, Car, Shield } from "lucide-react";
-import { bodyTypes, carMakes, faqItems, featuredCars } from "@/lib/data";
+import { bodyTypes, carMakes, faqItems } from "@/lib/data";
 import CarCard from "@/components/CarCard";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SignedOut } from "@clerk/nextjs";
-export default function Home() {
+import { getFeaturedCars } from "@/actions/home";
+export default async function Home() {
+  const featuredCars = await getFeaturedCars()
   return (
     <div className="pt-20 flex flex-col">
       {/* Hero */}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 
 const useFetch = (cb) =>{
     const {user} = useUser()
+    
     const [userId , setUserId] = useState("")
     const [data , setData] = useState(undefined)
     const [loading , setLoading] = useState(false)

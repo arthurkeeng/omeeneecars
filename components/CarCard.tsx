@@ -1,34 +1,74 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import Image from 'next/image'
-import {CarIcon, Heart } from 'lucide-react'
+import {CarIcon, Heart, Loader2 } from 'lucide-react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { useRouter } from 'next/navigation'
+import useFetch from '@/hook/use_fetch'
+import { toggleSavedCar } from '@/actions/car-fetch'
+import { useUser } from '@clerk/nextjs'
+import { toast } from 'sonner'
 
-interface CarCardProps {
-        id: number,
-        make: string,
-        model: string,
-        year: number,
-        price: number,
-        images: string[],
-        transmission: string,
-        fuelType: string,
-        bodyType: string,
-        mileage: number,
-        color: string,
-        wishlisted: boolean,
+// interface CarCardProps {
+//         id: number,
+//         make: string,
+//         model: string,
+//         year: number,
+//         price: number,
+//         images: string[],
+//         transmission: string,
+//         fuelType: string,
+//         bodyType: string,
+//         mileage: number,
+//         color: string,
+//         wishlisted: boolean,
     
-}
-const CarCard = ({car} : {
-    car : CarCardProps
-}) => {
+// }
+const CarCard = ({car} 
+//     : {
+//     car : CarCardProps
+// }
+) => {
+
+   
     const [saved , setSaved] = useState(car.wishlisted)
-    const handleToggle = ()=>{}
+    const {user} = useUser()
+    const {
+        loading : isToggling , 
+        fn : toggleSavedFn, 
+        data : toggleResult , 
+        error : toggleError
+    } = useFetch(toggleSavedCar)
+
+
+    const handleToggle = async ( e)=>{
+        e.preventDefault()
+        if(!user){
+            toast.error("please sign in to save cars")
+            router.push('/sign-in')
+            return
+        }
+
+        if(isToggling)return
+        await toggleSavedFn({carId : car.id})
+    }
     const router = useRouter()
+
+
+    useEffect(()=> {
+        if(toggleResult?.success && toggleResult.saved !=saved){
+            setSaved(toggleResult.saved)
+            toast.success(toggleResult.message)
+        }
+    } , [toggleResult , saved])
+    useEffect(()=> {
+        if(toggleError){
+            toast.error("Failed to update favorites")
+        }
+    } , [toggleError])
   return (
     <Card className='overflow-hidden hover:shadow-lg transition group'>
         <div className='relative h-50 '>
@@ -56,10 +96,12 @@ const CarCard = ({car} : {
             }`}
             onClick={handleToggle}
             >
-                <Heart 
-                
-                
-                className={saved ? "fill-current" : ""} size={70}/>
+                {isToggling ? (
+                    <Loader2 className='h-4 w-4 animate-spin'/>
+                )
+            :
+                <Heart className={saved ? "fill-current" : ""} size={70}/>
+            }
 
             </Button>
         </div>

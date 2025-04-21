@@ -1,12 +1,16 @@
 
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from './ui/input'
 import {useDropzone} from 'react-dropzone'
 import { Camera, Upload } from 'lucide-react'
 import { Button } from './ui/button'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import useFetch from '@/hook/use_fetch'
+import { processImageSearch } from '@/actions/home'
+import {fileToBase64} from '@/lib/helper'
+
 const HomeSearch = () => {
   const router= useRouter()
     const [searchInput , setSearchInput] = useState("")
@@ -17,6 +21,7 @@ const HomeSearch = () => {
     const dropzone = useDropzone()
     const handleSearchSubmit = (e) =>{
 
+
       e.preventDefault()
       if(!searchInput.trim){
         toast.error("Please enter a Search Term")
@@ -24,6 +29,14 @@ const HomeSearch = () => {
       }
       router.push(`/cars?search=${encodeURIComponent(searchInput)}`)
     }
+
+    const {loading : isProcessing , 
+      fn : processImageFn , 
+      data : processResult, 
+      error : processError
+    } = useFetch(processImageSearch)
+
+
     const handleImageSearch =async (e)=>{
         e.preventDefault()
         if(!searchImage){
@@ -31,7 +44,37 @@ const HomeSearch = () => {
           toast.error("Kindly Upload an Image first")
         return
         } 
+        const base64Image = await fileToBase64(searchImage);
+        
+            const mimeType= searchImage.type
+            const data = {
+              base64Image , mimeType
+            }
+
+        await processImageFn(data)
     }
+
+    useEffect(()=> {
+      if(processError){
+        console.log('there was an error' , processError)
+        toast.error(
+          "failed to analyse image"
+        )
+      }
+    } , [processError])
+    
+    useEffect(()=>{
+      if(processResult?.success){
+        
+        const params = new URLSearchParams()
+
+        if(processResult.data.make) params.set("make" , processResult.data.make);
+        if(processResult.data.bodyType) params.set("bodyType" , processResult.data.bodyType);
+        if(processResult.data.color) params.set("color" , processResult.data.color);
+
+        router.push(`/cars?${params.toString()}`);
+      }
+    } , [processResult])
 
     const onDrop = acceptedFiles => {
       const file = acceptedFiles[0]
@@ -46,10 +89,7 @@ const HomeSearch = () => {
 
         const reader = new FileReader()
         reader.onloadend = () =>{
-          if (reader?.result === "string"){
-
-            setImagePreview(reader.result!)
-          }
+          setImagePreview(reader.result!)
           setIsUploading(false)
           toast.success("Image uploaded successfully")
         }
@@ -142,10 +182,10 @@ const HomeSearch = () => {
 
             {imagePreview && <Button
             type='submit'
-            className='w-full mt-3'
-            disabled = {isUploading}
+            className='w-full mt-3 cursor-pointer'
+            disabled = {isUploading || isProcessing}
             >
-              {isUploading ? "Uploading" : "Search with image"}
+              {isUploading ? "Uploading" : isProcessing ? "Processing Image..." : "Search with image"}
               </Button>}
           </form>
         </div>

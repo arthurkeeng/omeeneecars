@@ -32,6 +32,7 @@ import { toast } from "sonner";
 import { Camera, Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import {fileToBase64} from "@/lib/helper"
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -67,21 +68,7 @@ const AddCarForm = () => {
   const [isImageSearchOpen, setIsImageSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("ai");
 // start
-  async function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result;
-        if (typeof result === "string") {
-          resolve(result.split(",")[1]); // ✅ Safe use of .split
-        } else {
-          reject(new Error("File could not be converted to base64."));
-        }
-      };
-       reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
+ 
 // end
 
   useEffect(() => {
@@ -197,10 +184,7 @@ const AddCarForm = () => {
 
     const reader = new FileReader()
     reader.onload = (e) => {
-      if (e.target.result === "string"){
-
-        setImagePreview(e.target.result)
-      }
+      setImagePreview(e.target.result)
       toast.success("Image uploaded successfully");
     }
    reader.readAsDataURL(file);
@@ -257,12 +241,7 @@ const AddCarForm = () => {
       const reader = new FileReader()
 
       reader.onload = e => {
-        const result = e.target?.result
-
-        if (result === "string") {
-
-          setUploadedImages(prev => [...prev , result])
-        }
+        setUploadedImages(prev => [...prev , e.target?.result])
       }
       reader.readAsDataURL(uploadedAIImage!)
 
@@ -481,7 +460,7 @@ const AddCarForm = () => {
                   <div className="space-y-2">
                     <Label htmlFor="status">Status</Label>
                     <Select
-                      onValueChange={(value) => setValue("status", value as "AVAILABLE" | "UNAVAILABLE" | "SOLD")}
+                      onValueChange={(value) => setValue("status", value)}
                       defaultValue={getValues("status")}
                     >
                       <SelectTrigger>
@@ -522,7 +501,7 @@ const AddCarForm = () => {
                     id="featured"
                     checked={watch("featured")}
                     onCheckedChange={(checked) => {
-                      setValue("featured", checked as boolean);
+                      setValue("featured", checked);
                     }}
                   />
                   <div className="space-y-1 leading-none">

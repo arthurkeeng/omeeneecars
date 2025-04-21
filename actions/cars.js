@@ -10,14 +10,13 @@ import { revalidatePath } from "next/cache";
 import {serializedCarData} from '@/lib/helper'
 
 
-export async function processCarImageWithAI(data,userId) {
-
+export async function processCarImageWithAI(data) {
   let base64Image = data["0"].base64Image
   let mimeType = data["0"].mimeType
 
   // console.log('the base is ' , base64Image)
   try {
-    const isAdmin = await getAdmin(userId);
+    const isAdmin = await getAdmin();
     if (!isAdmin.authorized) throw new Error("Unauthorized");
 
     if (!process.env.GEMINI_API_KEY) {
@@ -106,27 +105,26 @@ export async function processCarImageWithAI(data,userId) {
     } catch (error) {
       return {
         success: false,
-        message: "Failed to parse AI response",
+        error: "Failed to parse AI response",
       };
     }
   } catch (error) {
     
     return {
       success: false,
-      message: "Server Error",
+      error: "Server Error",
     };
     // throw new Error(`Gemini Api Error :${ error.message}`);
   }
 }
 
-export async function addCar(args, userId) {
-
+export async function addCar(args) {
 
   const carData = args["0"].carData ;
   const images = args["0"].images
 
   try {
-    const isAdmin = await getAdmin(userId);
+    const isAdmin = await getAdmin();
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
     
@@ -203,15 +201,17 @@ export async function addCar(args, userId) {
         success : true
       }
     
-  } catch (error) {}
+  } catch (error) {
+    console.log('the error is ' , error)
+  }
 }
 
-export async function getCars(args, userId){
+export async function getCars(args){
   let {search} = args["0"]
  
 
   try {
-    const isAdmin = await getAdmin(userId);
+    const isAdmin = await getAdmin();
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
     if (isAdmin.authorized) console.log("authorized")
@@ -242,10 +242,10 @@ export async function getCars(args, userId){
   } 
 }
 
-export async function deleteCar(args , userId) {
+export async function deleteCar(args ) {
   try {
     let {id} = args[0]  
-  const isAdmin = await getAdmin(userId);
+  const isAdmin = await getAdmin();
 
   if (!isAdmin.authorized) throw new Error("Unauthorized");
   
@@ -300,11 +300,11 @@ try {
 }
 }
 
-export async function updateCarStatus( args , userId){
+export async function updateCarStatus( args){
    let {id , status , featured} = args[0]
 
   try {
-    const isAdmin = await getAdmin(userId);
+    const isAdmin = await getAdmin();
 
     if (!isAdmin.authorized) throw new Error("Unauthorized");
     
