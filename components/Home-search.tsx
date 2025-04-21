@@ -14,7 +14,7 @@ import {fileToBase64} from '@/lib/helper'
 const HomeSearch = () => {
   const router= useRouter()
     const [searchInput , setSearchInput] = useState("")
-    const [imagePreview , setImagePreview]= useState("")
+    const [imagePreview , setImagePreview]= useState<string|ArrayBuffer>("")
     const [searchImage , setSearchImage] = useState(null)
     const [isUploading , setIsUploading] = useState(false)
     const [isImageSearchOpen , setIsImageSearchOpen] = useState(false)
@@ -143,11 +143,11 @@ const HomeSearch = () => {
             <div className='border-2 border-dashed bg-gray-300 rounded-3xl p-6'>
         {
           imagePreview ? <div className='flex flex-col items-center justify-center align-middle'>
-            <img
+            {typeof imagePreview=== 'string' && <img
             src={imagePreview}
             alt='Car Preview'
             className='h-40 object-contain mb-4'
-            />
+            />}
             <Button 
             variant='outline'
             onClick={()=>{
