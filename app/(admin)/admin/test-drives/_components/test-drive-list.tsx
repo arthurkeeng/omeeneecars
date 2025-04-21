@@ -93,13 +93,13 @@ const TestDrivesList = () => {
           <Select
             value={statusFilter}
             onValueChange={setStatusFilter}
-            className="w-full sm:w-48"
+            // className="w-full sm:w-48"
           >
             <SelectTrigger>
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem>All Statuses</SelectItem>
+              <SelectItem value="">All Statuses</SelectItem>
               <SelectItem value="PENDING">Pending</SelectItem>
               <SelectItem value="CONFIRMED">Confirmed</SelectItem>
               <SelectItem value="COMPLETED">Completed</SelectItem>
@@ -176,7 +176,7 @@ const TestDrivesList = () => {
                     )}
                     isAdmin={true}
                     isCancelling={cancelling}
-                    cancelError={cancelError}
+                    // cancelError={cancelError}
                     renderStatusSelector={() => (
                       <Select
                         value={booking.status}
