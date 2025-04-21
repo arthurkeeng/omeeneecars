@@ -548,14 +548,14 @@ const AddCarForm = () => {
                       {uploadedImages.map((image, index) => {
                         return (
                           <div className="relative" key={index}>
-                            <Image
+                          {typeof image === "string" &&  <Image
                               src={image}
                               alt={`car image ${index + 1}`}
                               height={50}
                               width={50}
                               className="h-28 w-full object-cover rounded-md"
                               priority
-                            />
+                            />}
 
                             <Button
                               type="button"
