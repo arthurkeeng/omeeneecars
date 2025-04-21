@@ -602,11 +602,11 @@ const AddCarForm = () => {
               <div className="border-2 border-dashed rounded-lg p-6 text-center">
                 {
                   imagePreview ?(<div className="flex flex-col items-center">
-                    <img
+                   {typeof imagePreview ==='string' && <img
                     src={imagePreview}
                     alt="Car Preview"
                     className="max-h-56 max-w-full object-contain mb-4"
-                    />
+                    />}
                     <div 
                       className="flex gap-2"
                     >
