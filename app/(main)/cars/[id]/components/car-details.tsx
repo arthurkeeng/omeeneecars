@@ -82,7 +82,7 @@ export function CarDetails({ car, testDriveInfo }) {
       navigator
         .share({
           title: `${car.year} ${car.make} ${car.model}`,
-          text: `Check out this ${car.year} ${car.make} ${car.model} on Vehiql!`,
+          text: `Check out this ${car.year} ${car.make} ${car.model} on Omeeneecars!`,
           url: window.location.href,
         })
         .catch((error) => {
