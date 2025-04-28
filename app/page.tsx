@@ -13,7 +13,12 @@ import {
 } from "@/components/ui/accordion";
 import { SignedOut } from "@clerk/nextjs";
 import { getFeaturedCars } from "@/actions/home";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 export default async function Home() {
+  const {userId} = await auth()
+
+  if(!userId)redirect("/sign-in")
   const featuredCars = await getFeaturedCars()
   return (
     <div className="pt-20 flex flex-col">
