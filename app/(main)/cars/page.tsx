@@ -4,6 +4,8 @@ import {getCarFilters} from "@/actions/car-fetch"
 import CarFilters from "./_components/car-filters"
 import CarListing from "./_components/car-listing"
 import {Suspense} from 'react'
+import { auth } from "@clerk/nextjs/server"
+  import { redirect } from "next/navigation"
 
 export const metadata ={
     title : "Cars | OmeeneeCars" , 
@@ -14,6 +16,8 @@ export const dynamic = "force-dynamic";
 
 const CarsPage = async () => {
 
+    const {userId} = await auth()
+    if(!userId)redirect("/sign-in?redirect=/cars")
     const filteredCar = await getCarFilters()
   return (
     <div className="container mx-auto px-1 py-1">
