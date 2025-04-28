@@ -2,6 +2,7 @@ import { getCarById } from '@/actions/car-fetch'
 import { auth } from '@clerk/nextjs/server'
 import { notFound } from 'next/navigation'
 import {TestDriveForm} from './_components/test-drive-form'
+  import { redirect } from "next/navigation"
 
 
 export async function generateMetadata(){
@@ -12,6 +13,9 @@ export async function generateMetadata(){
 }
 const TestDrive = async ({params}) => {
   const {userId} = await auth()
+
+    
+    if(!userId)redirect("/sign-in?redirect=/cars")
   const {id} = await params
 
   const result = await getCarById(id , userId)
